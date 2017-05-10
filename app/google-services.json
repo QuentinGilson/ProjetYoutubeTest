@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1093764719669",
+    "firebase_url": "https://projetyoutube.firebaseio.com",
+    "project_id": "projetyoutube",
+    "storage_bucket": "projetyoutube.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1093764719669:android:8b74fdde15ffc7a9",
+        "android_client_info": {
+          "package_name": "technifutur.be.projetyoutube"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1093764719669-47chh3qloqnhs80ogm2m2qnjn615u166.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "technifutur.be.projetyoutube",
+            "certificate_hash": "cb6499260a8ecc2a4783ad3c5e6888a4c79f7dcd"
+          }
+        },
+        {
+          "client_id": "1093764719669-gficsh8v43pbbnstnpqufrbggj1a7tjj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3LhzxObG0nH3vv-Fp2Xqul4Imjuf2Opo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1093764719669-gficsh8v43pbbnstnpqufrbggj1a7tjj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

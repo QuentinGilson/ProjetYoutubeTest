@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ProjetYoutube</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="pseudo">pseudo</string>
+    <string name="password">password</string>
+    <string name="chat_instantane">Chat instantane</string>
+    <string name="new_forum">New Forum</string>
+    <string name="facebook_app_id">607575362772827</string>
+</resources>

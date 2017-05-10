@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="technifutur.be.projetyoutube.fragment.ReseauFragment"
+    android:gravity="center_horizontal"
+    android:background="@color/myWhite"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+        <ImageView
+            android:id="@+id/logo_facebook"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:src="@drawable/facebook"
+            android:layout_weight="1" />
+        <ImageView
+            android:id="@+id/logo_twitter"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:src="@drawable/twitter"
+            android:layout_weight="1"/>
+        <ImageView
+            android:id="@+id/logo_instagram"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:src="@drawable/instagram"
+            android:layout_weight="1"/>
+        <ImageView
+            android:id="@+id/logo_snapchat"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:src="@drawable/snapchat"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/twitter_timeline"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ListView>
+
+    
+
+</LinearLayout>

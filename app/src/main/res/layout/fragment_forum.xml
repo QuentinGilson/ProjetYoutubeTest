@@ -1,0 +1,30 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="technifutur.be.projetyoutube.fragment.ForumFragment">
+
+    <TextView
+        android:id="@+id/textview_number_of_people_online"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/myGreen"
+        android:textSize="16sp"
+        android:paddingLeft="15dp"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview_all_forum"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/button_add_new_forum"
+        android:layout_below="@id/textview_number_of_people_online">
+    </android.support.v7.widget.RecyclerView>
+
+    <Button
+        android:id="@+id/button_add_new_forum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/new_forum"/>
+
+</RelativeLayout>

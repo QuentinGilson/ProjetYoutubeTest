@@ -1,0 +1,22 @@
+<RelativeLayout
+ xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="technifutur.be.projetyoutube.fragment.CreateNewForumFragment"
+    android:clickable="true"
+    android:background="@color/myWhite">
+
+    <EditText
+        android:id="@+id/create_forum_edittext_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="name" />
+
+    <Button
+        android:id="@+id/button_create_forum_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="add"/>
+</RelativeLayout>

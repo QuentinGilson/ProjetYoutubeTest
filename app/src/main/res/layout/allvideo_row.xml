@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/myBlack">
+
+    <TextView
+        android:id="@+id/textview_youtube_cell"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/myWhite"
+        android:background="@color/myBlack"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"/>
+
+    <ImageView
+        android:id="@+id/imageview_youtube_cell"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp">
+        <TextView
+            android:id="@+id/textview_youtube_cell_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/myWhite"
+            android:background="@color/myBlack"
+            android:layout_marginRight="10dp"/>
+        <TextView
+            android:id="@+id/textview_youtube_cell_numberview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/myWhite"
+            android:background="@color/myBlack"
+            android:layout_marginRight="10dp"/>
+        <ImageView
+            android:id="@+id/img_star1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/star"
+            android:visibility="visible"/>
+        <ImageView
+            android:id="@+id/img_star2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/star"
+            android:visibility="invisible"/>
+        <ImageView
+            android:id="@+id/img_star3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/star"
+            android:visibility="invisible"/>
+        <ImageView
+            android:id="@+id/img_star4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/star"
+            android:visibility="invisible"/>
+        <ImageView
+            android:id="@+id/img_star5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/star"
+            android:visibility="invisible"/>
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/chat_instantane_row_cardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/chat_instantane_row_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="5dp"
+                android:scaleType="fitXY"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardview_citation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/chat_instantane_row_image"
+                android:layout_margin="5dp"
+                android:visibility="gone">
+                <TextView
+                    android:id="@+id/cardview_citation_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:id="@+id/chat_instantane_row_textview_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/myBlack"
+                android:textSize="14sp"
+                android:layout_toRightOf="@id/chat_instantane_row_image"
+                android:layout_below="@id/cardview_citation"/>
+            <TextView
+                android:id="@+id/chat_instantane_row_textview_usermessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/chat_instantane_row_textview_username"
+                android:textSize="12sp"
+                android:layout_toRightOf="@id/chat_instantane_row_image"
+                android:maxLength="300"/>
+            <TextView
+                android:id="@+id/chat_instantane_row_textview_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/cardview_citation"/>
+
+            <Button
+                android:id="@+id/button_cardview_citation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/chat_instantane_row_textview_usermessage"
+                android:layout_toRightOf="@id/chat_instantane_row_image"
+                android:text="citation"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/button_cardview_message_prive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/chat_instantane_row_textview_usermessage"
+                android:layout_toRightOf="@id/button_cardview_citation"
+                android:text="MP"
+                android:visibility="gone"/>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>
