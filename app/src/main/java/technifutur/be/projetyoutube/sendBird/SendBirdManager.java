@@ -36,9 +36,8 @@ public class SendBirdManager {
         void allOpenChannel(List<OpenChannel> allopenChannel);
         void openChannelCreated(OpenChannel openChannel);
         void numberOfUserOnline(int cpt);
+        void getLastMessage(UserMessage userMessage,OpenChannel openChannel);
     }
-
-
 
     private static SendBirdManager sendBirdManager;
     private ChatInstantaneListener chatInstantaneListener;
@@ -58,7 +57,6 @@ public class SendBirdManager {
     public void setGestionForum(GestionForum gestionForum) {
         this.gestionForum = gestionForum;
     }
-
 
     public void connectSendBird(final technifutur.be.projetyoutube.model.youtube.User myuser){
         SendBird.connect(myuser.getId(), new SendBird.ConnectHandler() {
@@ -157,6 +155,21 @@ public class SendBirdManager {
                     }
                 }
                 gestionForum.numberOfUserOnline(cpt);
+            }
+        });
+    }
+
+    public void getLastMessage(final OpenChannel openChannel){
+        PreviousMessageListQuery previousMessageListQuery = openChannel.createPreviousMessageListQuery();
+        previousMessageListQuery.load(1, true, new PreviousMessageListQuery.MessageListQueryResult() {
+            @Override
+            public void onResult(List<BaseMessage> list, SendBirdException e) {
+                if(list.size()>0){
+                    BaseMessage message = list.get(0);
+                    if(message instanceof UserMessage){
+                        gestionForum.getLastMessage((UserMessage) message,openChannel);
+                    }
+                }
             }
         });
     }

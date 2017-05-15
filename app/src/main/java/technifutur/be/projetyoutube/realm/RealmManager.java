@@ -1,6 +1,10 @@
 package technifutur.be.projetyoutube.realm;
 
 
+import com.sendbird.android.OpenChannel;
+
+import java.util.List;
+
 import io.realm.Realm;
 import technifutur.be.projetyoutube.application.App;
 import technifutur.be.projetyoutube.model.youtube.User;

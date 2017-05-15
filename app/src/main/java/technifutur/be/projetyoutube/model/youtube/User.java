@@ -3,6 +3,10 @@ package technifutur.be.projetyoutube.model.youtube;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.sendbird.android.OpenChannel;
+
+import java.util.List;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -18,6 +22,7 @@ public class User extends RealmObject implements Parcelable{
 
     public User() {
     }
+
 
     protected User(Parcel in) {
         id = in.readString();
@@ -72,4 +77,5 @@ public class User extends RealmObject implements Parcelable{
     public void setImage(String image) {
         this.image = image;
     }
+
 }

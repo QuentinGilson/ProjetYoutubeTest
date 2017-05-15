@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter;
 import com.mikepenz.fastadapter.items.AbstractItem;
 import com.sendbird.android.OpenChannel;
+import com.sendbird.android.UserMessage;
 
 import java.util.List;
 
@@ -110,17 +111,22 @@ public class ForumFragment extends Fragment implements AllForumItem.OnItemClick,
     @Override
     public void allOpenChannel(List<OpenChannel> allopenChannel) {
         for (OpenChannel openChannel : allopenChannel) {
-            allForumAdapter.add(new AllForumItem(openChannel, this));
+            sendBirdManager.getLastMessage(openChannel);
         }
     }
 
     @Override
     public void openChannelCreated(OpenChannel openChannel) {
-        allForumAdapter.add(new AllForumItem(openChannel, this));
+        allForumAdapter.add(new AllForumItem(openChannel, this,null));
     }
 
     @Override
     public void numberOfUserOnline(int cpt) {
         textviewNumberOfPeopleOnline.setText((cpt+1)+" membres connectés");
+    }
+
+    @Override
+    public void getLastMessage(UserMessage userMessage, OpenChannel openChannel) {
+        allForumAdapter.add(new AllForumItem(openChannel, this,userMessage));
     }
 }
