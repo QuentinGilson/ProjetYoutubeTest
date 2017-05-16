@@ -3,6 +3,7 @@ package technifutur.be.projetyoutube.sendBird;
 
 import android.util.Log;
 
+import com.sendbird.android.AdminMessage;
 import com.sendbird.android.BaseChannel;
 import com.sendbird.android.BaseMessage;
 
@@ -39,9 +40,14 @@ public class SendBirdManager {
         void getLastMessage(UserMessage userMessage,OpenChannel openChannel);
     }
 
+    public interface NotifListener{
+        void messageReceived();
+    }
+
     private static SendBirdManager sendBirdManager;
     private ChatInstantaneListener chatInstantaneListener;
     private GestionForum gestionForum;
+    private NotifListener notifListener;
 
     public static SendBirdManager getSendBirdManager(){
         if(sendBirdManager==null){
@@ -52,6 +58,10 @@ public class SendBirdManager {
 
     public void setChatInstantaneListener(ChatInstantaneListener chatInstantaneListener) {
         this.chatInstantaneListener = chatInstantaneListener;
+    }
+
+    public void setNotifListener(NotifListener notifListener) {
+        this.notifListener = notifListener;
     }
 
     public void setGestionForum(GestionForum gestionForum) {
@@ -110,7 +120,12 @@ public class SendBirdManager {
         SendBird.addChannelHandler("channel_handler", new SendBird.ChannelHandler() {
             @Override
             public void onMessageReceived(BaseChannel baseChannel, BaseMessage baseMessage) {
-                chatInstantaneListener.messageReceived(baseMessage);
+                if(chatInstantaneListener!=null){
+                    chatInstantaneListener.messageReceived(baseMessage);
+                }else{
+                    notifListener.messageReceived();
+                }
+
             }
         });
     }
@@ -119,7 +134,9 @@ public class SendBirdManager {
         openChannel.sendUserMessage(message, new BaseChannel.SendUserMessageHandler() {
             @Override
             public void onSent(UserMessage userMessage, SendBirdException e) {
-                chatInstantaneListener.messageSent(userMessage);
+                if (chatInstantaneListener != null) {
+                    chatInstantaneListener.messageSent(userMessage);
+                }
             }
         });
     }

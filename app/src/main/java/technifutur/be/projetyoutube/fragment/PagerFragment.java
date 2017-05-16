@@ -1,7 +1,10 @@
 package technifutur.be.projetyoutube.fragment;
 
 
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -13,11 +16,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import technifutur.be.projetyoutube.R;
 import technifutur.be.projetyoutube.adapter.PagerAdapter;
+import technifutur.be.projetyoutube.sendBird.SendBirdManager;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PagerFragment extends Fragment {
+public class PagerFragment extends Fragment implements SendBirdManager.NotifListener {
 
 
     @BindView(R.id.main_tab_layout)
@@ -25,6 +29,7 @@ public class PagerFragment extends Fragment {
     @BindView(R.id.main_viewpager)
     ViewPager mainViewpager;
     private PagerAdapter pagerAdapter;
+    private SendBirdManager sendBirdManager;
 
     public PagerFragment() {
         // Required empty public constructor
@@ -46,6 +51,9 @@ public class PagerFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_pager, container, false);
         ButterKnife.bind(this, view);
 
+        sendBirdManager = SendBirdManager.getSendBirdManager();
+        sendBirdManager.setNotifListener(this);
+
         pagerAdapter = new PagerAdapter(getFragmentManager());
         mainViewpager.setAdapter(pagerAdapter);
         mainTabLayout.setupWithViewPager(mainViewpager);
@@ -60,4 +68,9 @@ public class PagerFragment extends Fragment {
         return view;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void messageReceived() {
+        mainTabLayout.getTabAt(1).getIcon().setTint(Color.RED);
+    }
 }

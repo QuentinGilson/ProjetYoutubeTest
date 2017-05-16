@@ -13,6 +13,15 @@
         android:layout_height="wrap_content"
         android:hint="name" />
 
+    <EditText
+        android:id="@+id/create_forum_edittext_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/create_forum_edittext_name"
+        android:hint="message"
+        android:lines="4"
+        android:gravity="top"/>
+
     <Button
         android:id="@+id/button_create_forum_add"
         android:layout_width="match_parent"

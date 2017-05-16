@@ -9,7 +9,7 @@ import java.util.Date;
 
 public class MyDate {
 
-    public static SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+    public static SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
     public static String timeAgo(Date date){
         Date now = new Date();

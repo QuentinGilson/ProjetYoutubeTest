@@ -11,7 +11,6 @@ import android.widget.EditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import technifutur.be.projetyoutube.R;
 
 /**
@@ -19,9 +18,12 @@ import technifutur.be.projetyoutube.R;
  */
 public class CreateNewForumFragment extends Fragment {
 
-    public interface ForumCreatedListener{
-        void forumCreated(String name);
+    public interface ForumCreatedListener {
+        void forumCreated(String name,String message);
     }
+
+    @BindView(R.id.create_forum_edittext_message)
+    EditText createForumEdittextMessage;
 
     @BindView(R.id.create_forum_edittext_name)
     EditText createForumEdittextName;
@@ -49,8 +51,9 @@ public class CreateNewForumFragment extends Fragment {
     @OnClick(R.id.button_create_forum_add)
     public void onViewClicked() {
         String name = createForumEdittextName.getText().toString();
-        if(!name.isEmpty()){
-            forumCreatedListener.forumCreated(name);
+        String message = createForumEdittextMessage.getText().toString();
+        if (!name.isEmpty() && !message.isEmpty()) {
+            forumCreatedListener.forumCreated(name,message);
         }
     }
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,9 @@ import com.mikepenz.fastadapter.items.AbstractItem;
 import com.sendbird.android.OpenChannel;
 import com.sendbird.android.UserMessage;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -40,6 +44,8 @@ public class ForumFragment extends Fragment implements AllForumItem.OnItemClick,
     private FastItemAdapter<AbstractItem> allForumAdapter;
     private LinearLayoutManager linearLayoutManager;
     private User user;
+    private String firstMessage;
+    private List<Long> allLastMessageDate;
 
     public ForumFragment() {
         // Required empty public constructor
@@ -63,6 +69,7 @@ public class ForumFragment extends Fragment implements AllForumItem.OnItemClick,
 
         user = RealmManager.getRealmManager().getUser();
         connectingToSenbird();
+        allLastMessageDate = new ArrayList<>();
 
         return view;
     }
@@ -87,8 +94,9 @@ public class ForumFragment extends Fragment implements AllForumItem.OnItemClick,
     public void onViewClicked() {
         CreateNewForumFragment createNewForumFragment = CreateNewForumFragment.newInstance(new CreateNewForumFragment.ForumCreatedListener() {
             @Override
-            public void forumCreated(String name) {
+            public void forumCreated(String name, String message) {
                 getFragmentManager().popBackStack();
+                firstMessage = message;
                 sendBirdManager.createOpenChannel(name);
             }
         });
@@ -110,6 +118,7 @@ public class ForumFragment extends Fragment implements AllForumItem.OnItemClick,
 
     @Override
     public void allOpenChannel(List<OpenChannel> allopenChannel) {
+
         for (OpenChannel openChannel : allopenChannel) {
             sendBirdManager.getLastMessage(openChannel);
         }
@@ -117,16 +126,33 @@ public class ForumFragment extends Fragment implements AllForumItem.OnItemClick,
 
     @Override
     public void openChannelCreated(OpenChannel openChannel) {
+        sendBirdManager.sendMessageToChatInstantane(firstMessage,openChannel);
         allForumAdapter.add(new AllForumItem(openChannel, this,null));
     }
 
     @Override
     public void numberOfUserOnline(int cpt) {
-        textviewNumberOfPeopleOnline.setText((cpt+1)+" membres connectés");
+        textviewNumberOfPeopleOnline.setText((cpt)+" membres connectés");
     }
 
     @Override
     public void getLastMessage(UserMessage userMessage, OpenChannel openChannel) {
-        allForumAdapter.add(new AllForumItem(openChannel, this,userMessage));
+        if(allLastMessageDate.size()>0) {
+            boolean out = false;
+            for (int i = 0; i < allLastMessageDate.size() && !out; i++) {
+                if (userMessage.getCreatedAt() > allLastMessageDate.get(i)) {
+                    allLastMessageDate.add(i, userMessage.getCreatedAt());
+                    allForumAdapter.add(i, new AllForumItem(openChannel, this,userMessage));
+                    out = true;
+                }
+            }
+            if(!out){
+                allLastMessageDate.add( userMessage.getCreatedAt());
+                allForumAdapter.add(new AllForumItem(openChannel, this,userMessage));
+            }
+        }else{
+            allLastMessageDate.add(userMessage.getCreatedAt());
+            allForumAdapter.add(new AllForumItem(openChannel, this,userMessage));
+        }
     }
 }
