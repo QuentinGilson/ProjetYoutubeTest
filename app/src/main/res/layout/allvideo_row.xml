@@ -2,40 +2,64 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/myBlack">
+    android:background="@color/myWhite">
 
     <TextView
         android:id="@+id/textview_youtube_cell"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/myWhite"
-        android:background="@color/myBlack"
+        android:textColor="@color/myBlack"
+        android:background="@color/myWhite"
         android:layout_marginTop="10dp"
         android:textStyle="bold"/>
 
     <ImageView
         android:id="@+id/imageview_youtube_cell"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp">
+        android:layout_height="wrap_content">
         <TextView
             android:id="@+id/textview_youtube_cell_duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/myWhite"
-            android:background="@color/myBlack"
+            android:textColor="@color/myBlack"
+            android:background="@color/myWhite"
             android:layout_marginRight="10dp"/>
         <TextView
             android:id="@+id/textview_youtube_cell_numberview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/myBlack"
+            android:background="@color/myWhite"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@id/textview_youtube_cell_duration"/>
+
+        <com.facebook.share.widget.ShareButton
+            android:id="@+id/share_facebook_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true" />
+
+        <Button
+            android:id="@+id/share_tweeter_button"
+            android:layout_width="85dp"
+            android:layout_height="29dp"
+            android:background="@drawable/tw__btn_composer_tweet"
+            android:text="Tweet"
+            android:textAllCaps="false"
             android:textColor="@color/myWhite"
-            android:background="@color/myBlack"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="8dp"
+            android:layout_toLeftOf="@id/share_facebook_button"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp">
+
         <ImageView
             android:id="@+id/img_star1"
             android:layout_width="wrap_content"
@@ -67,6 +91,5 @@
             android:src="@drawable/star"
             android:visibility="invisible"/>
     </LinearLayout>
-
 
 </LinearLayout>

@@ -98,7 +98,9 @@ public class ChatInstantaneItem extends AbstractItem<ChatInstantaneItem,ChatInst
 
         public void refresh(final UserMessage userMessage, Context context, final ButtonMessageListener listener){
             username.setText(userMessage.getSender().getNickname());
-            Glide.with(context).load(userMessage.getSender().getProfileUrl()).into(imageUser);
+            if(context!=null) {
+                Glide.with(context).load(userMessage.getSender().getProfileUrl()).into(imageUser);
+            }
             String dateString = MyDate.timeAgo(new Date(userMessage.getCreatedAt()));
             date.setText(dateString);
             citation.setVisibility(View.GONE);

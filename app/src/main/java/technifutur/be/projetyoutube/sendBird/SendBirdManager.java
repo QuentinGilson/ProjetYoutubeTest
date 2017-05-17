@@ -121,8 +121,10 @@ public class SendBirdManager {
             @Override
             public void onMessageReceived(BaseChannel baseChannel, BaseMessage baseMessage) {
                 if(chatInstantaneListener!=null){
+                    Log.d("test","message not null");
                     chatInstantaneListener.messageReceived(baseMessage);
                 }else{
+                    Log.d("test","message null");
                     notifListener.messageReceived();
                 }
 
@@ -134,6 +136,7 @@ public class SendBirdManager {
         openChannel.sendUserMessage(message, new BaseChannel.SendUserMessageHandler() {
             @Override
             public void onSent(UserMessage userMessage, SendBirdException e) {
+                Log.d("test","message sent");
                 if (chatInstantaneListener != null) {
                     chatInstantaneListener.messageSent(userMessage);
                 }

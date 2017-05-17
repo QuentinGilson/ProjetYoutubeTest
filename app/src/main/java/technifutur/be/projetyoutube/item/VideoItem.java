@@ -6,18 +6,32 @@ import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.facebook.FacebookActivity;
+import com.facebook.share.model.ShareContent;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.model.ShareMediaContent;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.widget.ShareButton;
+import com.facebook.share.widget.ShareDialog;
 import com.mikepenz.fastadapter.items.AbstractItem;
+import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.http.Url;
 import technifutur.be.projetyoutube.R;
+import technifutur.be.projetyoutube.activity.FaceBookActivity;
+import technifutur.be.projetyoutube.activity.MainActivity;
 import technifutur.be.projetyoutube.data.VideoRequest;
 import technifutur.be.projetyoutube.model.youtube.Video;
 import technifutur.be.projetyoutube.model.youtube.VideoDetail;
@@ -76,7 +90,12 @@ public class VideoItem extends AbstractItem<VideoItem,VideoItem.VideoViewHolder>
         protected ImageView star4;
         @BindView(R.id.img_star5)
         protected ImageView star5;
+        @BindView(R.id.share_facebook_button)
+        protected ShareButton shareButton;
+        @BindView(R.id.share_tweeter_button)
+        protected Button shareTweeter;
         private Context context;
+        private String videoId;
 
         public VideoViewHolder(View itemView) {
             super(itemView);
@@ -85,7 +104,7 @@ public class VideoItem extends AbstractItem<VideoItem,VideoItem.VideoViewHolder>
 
         public void refresh(Video video, Context context){
             this.context = context;
-            String videoId = video.getId().getVideoId();
+            videoId = video.getId().getVideoId();
             VideoRequest.getVideoDetail(this,videoId);
         }
 
@@ -95,11 +114,26 @@ public class VideoItem extends AbstractItem<VideoItem,VideoItem.VideoViewHolder>
             textView.setText(video.getSnippet().getTitle());
             textViewNumberView.setText("Views : "+video.getStatistics().getViewCount());
 
-            String imageUrl = video.getSnippet().getThumbnails().getMedium().getUrl();
+            final String imageUrl = video.getSnippet().getThumbnails().getMedium().getUrl();
             Glide.with(context).load(imageUrl).into(imageView);
 
             initRating(video);
             parseDuration(video);
+
+            ShareLinkContent shareLinkContent = new ShareLinkContent.Builder().setContentUrl(Uri.parse("https://www.youtube.com/watch?v="+videoId)).build();
+            shareButton.setShareContent(shareLinkContent);
+
+            shareTweeter.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        TweetComposer.Builder builder = new TweetComposer.Builder(context).url(new URL("https://www.youtube.com/watch?v="+videoId));
+                        builder.show();
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
 
         @Override
@@ -110,7 +144,7 @@ public class VideoItem extends AbstractItem<VideoItem,VideoItem.VideoViewHolder>
         private void parseDuration(VideoDetail video){
             String duration = video.getContentDetails().getDuration();
             duration = duration.substring(2);
-            textViewDuration.setText(duration.toLowerCase());
+            textViewDuration.setText("durée : "+duration.toLowerCase());
         }
 
         private void initRating(VideoDetail video){

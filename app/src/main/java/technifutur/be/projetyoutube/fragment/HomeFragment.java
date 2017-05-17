@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,7 @@ import technifutur.be.projetyoutube.model.youtube.VideoDetail;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment implements VideoRequest.VideoListener, VideoRequest.DetailVideoListener, TwitchRequest.TwitchListener {
+public class HomeFragment extends Fragment implements VideoRequest.VideoListener, VideoRequest.DetailVideoListener, TwitchRequest.TwitchListener{
 
 
     @BindView(R.id.textview_youtube_home)

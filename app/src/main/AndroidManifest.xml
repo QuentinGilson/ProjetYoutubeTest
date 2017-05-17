@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:name=".application.App"
@@ -27,30 +27,33 @@
             android:name="io.fabric.ApiKey"
             android:value="bb863d2ca5fa7b6df4887e53c45fb442fa37954d" />
 
-        <activity android:name=".activity.PagerActivity"></activity>
+        <activity android:name=".activity.PagerActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
+            android:value="@string/facebook_app_id" />
 
         <service android:name=".firebase.MyFireBaseInstanceIdService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-
         <service android:name=".firebase.MyFireBaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
         <receiver android:name=".receiver.NotificationBroadcastReceiver">
             <intent-filter>
-                <action android:name="video_section"/>
+                <action android:name="video_section" />
             </intent-filter>
         </receiver>
 
+        <activity android:name=".activity.FaceBookActivity"></activity>
+        <provider android:authorities="com.facebook.app.FacebookContentProvider607575362772827"
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true"/>
     </application>
 
 </manifest>

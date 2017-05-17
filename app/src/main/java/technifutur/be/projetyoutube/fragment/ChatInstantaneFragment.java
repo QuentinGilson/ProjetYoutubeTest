@@ -87,7 +87,6 @@ public class ChatInstantaneFragment extends Fragment implements SendBirdManager.
         popupImageCitation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("test","clic");
                 closeCitationPopup();
             }
         });
@@ -104,11 +103,13 @@ public class ChatInstantaneFragment extends Fragment implements SendBirdManager.
 
     @OnClick(R.id.button_send_message)
     public void onViewClicked() {
-        sendBirdManager.sendMessageToChatInstantane(editttext.getText().toString()+citation, openChannel);
-        editttext.setText("");
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-        closeCitationPopup();
+        if(!editttext.getText().toString().isEmpty()){
+            sendBirdManager.sendMessageToChatInstantane(editttext.getText().toString()+citation, openChannel);
+            editttext.setText("");
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+            closeCitationPopup();
+        }
     }
 
     @Override
@@ -156,7 +157,8 @@ public class ChatInstantaneFragment extends Fragment implements SendBirdManager.
     @Override
     public void onStop() {
         super.onStop();
-        sendBirdManager.leaveChatInstantane(openChannel);
+        //sendBirdManager.leaveChatInstantane(openChannel);
+        SendBirdManager.getSendBirdManager().setChatInstantaneListener(null);
     }
 
     @Override

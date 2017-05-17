@@ -25,7 +25,7 @@ public class TwitchRequest {
     }
 
     public static void checkTwitch(final TwitchListener listener){
-        String url ="https://api.twitch.tv/kraken/streams/nl_kripp";
+        String url ="https://api.twitch.tv/kraken/streams/nightblue3";
 
         TwitchJacksonRequest<TwitchResult> request = new TwitchJacksonRequest<>(Request.Method.GET, url, new JacksonRequestListener<TwitchResult>() {
             @Override

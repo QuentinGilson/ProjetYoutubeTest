@@ -67,11 +67,15 @@ public class ForumFragment extends Fragment implements AllForumItem.OnItemClick,
         View view = inflater.inflate(R.layout.fragment_forum, container, false);
         ButterKnife.bind(this, view);
 
+        refresh();
+
+        return view;
+    }
+
+    public void refresh(){
         user = RealmManager.getRealmManager().getUser();
         connectingToSenbird();
         allLastMessageDate = new ArrayList<>();
-
-        return view;
     }
 
     public void connectingToSenbird() {
