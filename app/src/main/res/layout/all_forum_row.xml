@@ -14,15 +14,21 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/myWhite"
-            android:padding="5dp">
+            android:background="@color/myWhite">
+            <ImageView
+                android:id="@+id/textview_cardview_all_forum_image"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="fitXY"
+                android:layout_marginRight="4dp"/>
             <TextView
                 android:id="@+id/textview_cardview_all_forum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="@color/myBlue"/>
+                android:textColor="@color/myBlue"
+                android:layout_toRightOf="@id/textview_cardview_all_forum_image"/>
             <TextView
                 android:id="@+id/textview_cardview_all_forum_date"
                 android:layout_width="wrap_content"
@@ -32,12 +38,14 @@
                 android:id="@+id/textview_cardview_all_forum_number_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/textview_cardview_all_forum"/>
+                android:layout_below="@id/textview_cardview_all_forum"
+                android:layout_toRightOf="@id/textview_cardview_all_forum_image"/>
             <TextView
                 android:id="@+id/textview_cardview_all_forum_last_messsage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/textview_cardview_all_forum_number_message"/>
+                android:layout_below="@id/textview_cardview_all_forum"
+                android:layout_toRightOf="@id/textview_cardview_all_forum_image"/>
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 

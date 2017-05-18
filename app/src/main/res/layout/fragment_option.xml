@@ -2,42 +2,86 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context="technifutur.be.projetyoutube.fragment.OptionFragment">
+    tools:context="technifutur.be.projetyoutube.fragment.OptionFragment"
+    android:background="@color/myBlue">
 
-
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/image_profile_settings"
-        android:layout_width="70dp"
-        android:layout_height="140dp"
-        android:layout_centerHorizontal="true"/>
-
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        app:civ_border_width="2dp"
+        app:civ_border_color="@color/myWhite"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"/>
+    
     <TextView
         android:id="@+id/name_settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/image_profile_settings"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/myWhite"
+        android:textSize="20sp"
+        android:layout_marginRight="15dp"/>
 
-    <Button
-        android:id="@+id/button_update_image_profile"
+    <ImageView
+        android:id="@+id/button_show_settings"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/settings"
+        android:layout_toRightOf="@id/name_settings"
+        android:layout_below="@id/image_profile_settings"
+        android:tint="@color/myWhite"
+        android:layout_marginBottom="5dp"/>
+
+    <RelativeLayout
+        android:id="@+id/layout_edit_profil"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/button_show_settings">
+        <LinearLayout
+            android:id="@+id/layout_change_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/edittext_change_name"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:hint="Changer le  nom"
+                android:textColor="@color/myWhite"
+                android:textColorHint="@color/myWhite"
+                android:layout_marginRight="2dp"/>
+            <Button
+                android:id="@+id/button_update_name_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="OK"
+                android:textColor="@color/myWhite"
+                android:background="@color/myBlue"
+                android:layout_toRightOf="@id/edittext_change_name"
+                style="@style/Widget.AppCompat.Button.Borderless"/>
+        </LinearLayout>
+        <Button
+            android:id="@+id/button_update_image_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="changer l'image"
+            android:textColor="@color/myWhite"
+            android:background="@color/myBlue"
+            android:layout_below="@id/layout_change_name"
+            style="@style/Widget.AppCompat.Button.Borderless"/>
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview_achievments"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="change image"/>
-
-    <Button
-        android:id="@+id/button_update_name_profile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/button_update_image_profile"
-        android:text="change nom"/>
-
-    <EditText
-        android:id="@+id/edittext_change_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/button_update_name_profile"
-        android:hint="change nom"/>
+        android:layout_below="@id/layout_edit_profil">
+    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>

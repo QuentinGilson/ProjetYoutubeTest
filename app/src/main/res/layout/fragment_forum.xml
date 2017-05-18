@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="technifutur.be.projetyoutube.fragment.ForumFragment">
+    tools:context="technifutur.be.projetyoutube.fragment.ForumFragment"
+    android:background="@color/myBlue">
 
     <TextView
         android:id="@+id/textview_number_of_people_online"
@@ -25,6 +26,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="@string/new_forum"/>
+        android:text="@string/new_forum"
+        android:background="@color/myBlue"
+        android:textColor="@color/myWhite" />
 
 </RelativeLayout>

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     tools:context="technifutur.be.projetyoutube.fragment.ChatInstantaneFragment"
     android:clickable="true"
-    android:background="@color/myWhite">
+    android:background="@color/myBlue">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -13,20 +13,22 @@
         android:id="@+id/cardview_citation_popup">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/myBlue">
             <ImageView
                 android:id="@+id/popup_image_citation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_margin="4dp"
-                android:src="@drawable/wrong"/>
+                android:src="@drawable/recyclingbin"/>
             <TextView
                 android:id="@+id/popup_citation_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"/>
+                android:layout_centerVertical="true"
+                android:textColor="@color/myWhite"/>
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 
@@ -35,19 +37,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/cardview_citation_popup"
-        android:background="@color/myWhite">
+        android:background="@color/myBlue">
         <EditText
             android:id="@+id/editttext"
             android:layout_width="0px"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:maxLength="300"/>
+            android:layout_weight="1"
+            android:maxLength="300"
+            android:hint="message"
+            android:textColorHint="@color/myWhite"
+            android:textColor="@color/myWhite"/>
 
-        <Button
+        <ImageView
             android:id="@+id/button_send_message"
-            android:layout_width="0px"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:src="@drawable/forwardarrow"/>
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

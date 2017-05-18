@@ -5,27 +5,51 @@
     android:layout_height="match_parent"
     tools:context="technifutur.be.projetyoutube.fragment.CreateNewForumFragment"
     android:clickable="true"
-    android:background="@color/myWhite">
+    android:background="@color/myBlue">
 
     <EditText
         android:id="@+id/create_forum_edittext_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="name" />
+        android:hint="Nom du forum "
+        android:textColorHint="@color/myWhite"
+        android:textColor="@color/myWhite"
+        android:maxLength="50"/>
 
     <EditText
         android:id="@+id/create_forum_edittext_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/create_forum_edittext_name"
-        android:hint="message"
+        android:hint="message "
         android:lines="4"
-        android:gravity="top"/>
+        android:gravity="top"
+        android:textColorHint="@color/myWhite"
+        android:textColor="@color/myWhite"
+        android:maxLength="300"/>
+    <Button
+        android:id="@+id/create_forum_button_add_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/create_forum_edittext_message"
+        android:background="@color/myBlue"
+        android:textColor="@color/myWhite"
+        android:text="Ajouter une image"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"/>
+
+    <ImageView
+        android:id="@+id/create_forum_fragment_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/create_forum_button_add_image"
+        android:layout_centerHorizontal="true"/>
 
     <Button
         android:id="@+id/button_create_forum_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:background="@color/myBlue"
+        android:textColor="@color/myWhite"
         android:text="add"/>
 </RelativeLayout>

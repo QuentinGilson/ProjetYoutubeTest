@@ -7,7 +7,7 @@
         android:id="@+id/chat_instantane_row_cardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp">
+        android:layout_margin="3dp">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/chat_instantane_row_image"
-                android:layout_margin="5dp"
+                android:layout_margin="3dp"
                 android:visibility="gone">
                 <TextView
                     android:id="@+id/cardview_citation_textview"

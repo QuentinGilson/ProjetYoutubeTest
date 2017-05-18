@@ -112,7 +112,7 @@ public class VideoItem extends AbstractItem<VideoItem,VideoItem.VideoViewHolder>
         public void didReceiveDetailVideo(List<VideoDetail> videoDetail) {
             VideoDetail video = videoDetail.get(0);
             textView.setText(video.getSnippet().getTitle());
-            textViewNumberView.setText("Views : "+video.getStatistics().getViewCount());
+            textViewNumberView.setText("Vues : "+video.getStatistics().getViewCount());
 
             final String imageUrl = video.getSnippet().getThumbnails().getMedium().getUrl();
             Glide.with(context).load(imageUrl).into(imageView);
@@ -144,7 +144,7 @@ public class VideoItem extends AbstractItem<VideoItem,VideoItem.VideoViewHolder>
         private void parseDuration(VideoDetail video){
             String duration = video.getContentDetails().getDuration();
             duration = duration.substring(2);
-            textViewDuration.setText("durée : "+duration.toLowerCase());
+            textViewDuration.setText(duration.toLowerCase());
         }
 
         private void initRating(VideoDetail video){

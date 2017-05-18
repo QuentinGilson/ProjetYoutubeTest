@@ -5,12 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -26,9 +27,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
 import technifutur.be.projetyoutube.R;
+import technifutur.be.projetyoutube.animation.ResizeAnimation;
 import technifutur.be.projetyoutube.model.youtube.User;
 import technifutur.be.projetyoutube.realm.RealmManager;
 import technifutur.be.projetyoutube.sendBird.SendBirdManager;
@@ -39,8 +42,6 @@ import technifutur.be.projetyoutube.sendBird.SendBirdManager;
 public class OptionFragment extends Fragment {
 
 
-    @BindView(R.id.image_profile_settings)
-    ImageView imageProfileSettings;
     @BindView(R.id.name_settings)
     TextView nameSettings;
     @BindView(R.id.button_update_image_profile)
@@ -49,7 +50,15 @@ public class OptionFragment extends Fragment {
     Button buttonUpdateNameProfile;
     @BindView(R.id.edittext_change_name)
     EditText edittextChangeName;
+    @BindView(R.id.image_profile_settings)
+    CircleImageView imageProfileSettings;
+    @BindView(R.id.layout_edit_profil)
+    RelativeLayout layoutEditProfil;
+    @BindView(R.id.recyclerview_achievments)
+    RecyclerView recyclerviewAchievments;
+
     private User user;
+    private boolean isSettingsOpen = false;
 
     public OptionFragment() {
         // Required empty public constructor
@@ -76,7 +85,13 @@ public class OptionFragment extends Fragment {
         reloadImage();
         nameSettings.setText(user.getName());
 
+        initRecyclerView();
+
         return view;
+    }
+
+    private void initRecyclerView(){
+
     }
 
     @Override
@@ -116,12 +131,26 @@ public class OptionFragment extends Fragment {
                 EasyImage.openChooserWithGallery(this, "Choisir nouvelle image", 0);
                 break;
             case R.id.button_update_name_profile:
-                if(!edittextChangeName.getText().toString().isEmpty()) {
+                if (!edittextChangeName.getText().toString().isEmpty()) {
                     RealmManager.getRealmManager().setName(edittextChangeName.getText().toString());
                     edittextChangeName.setText("");
                     nameSettings.setText(user.getName());
                 }
                 break;
         }
+    }
+
+    @OnClick(R.id.button_show_settings)
+    public void onClick() {
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) layoutEditProfil.getLayoutParams();
+        ResizeAnimation a = new ResizeAnimation(layoutEditProfil);
+        a.setDuration(500);
+        if (isSettingsOpen) {
+            a.setParams(200, 1);
+        } else {
+            a.setParams(lp.height, 200);
+        }
+        isSettingsOpen = !isSettingsOpen;
+        layoutEditProfil.startAnimation(a);
     }
 }

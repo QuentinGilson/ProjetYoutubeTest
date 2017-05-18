@@ -34,7 +34,7 @@ import technifutur.be.projetyoutube.sendBird.SendBirdManager;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ForumFragment extends Fragment implements AllForumItem.OnItemClick, SendBirdManager.GestionForum {
+public class ForumFragment extends Fragment implements AllForumItem.OnItemClick, SendBirdManager.GestionForum, ChatInstantaneFragment.ChatInstantaneDestroyListener {
 
     @BindView(R.id.recyclerview_all_forum)
     RecyclerView recyclerviewAllForum;
@@ -98,10 +98,10 @@ public class ForumFragment extends Fragment implements AllForumItem.OnItemClick,
     public void onViewClicked() {
         CreateNewForumFragment createNewForumFragment = CreateNewForumFragment.newInstance(new CreateNewForumFragment.ForumCreatedListener() {
             @Override
-            public void forumCreated(String name, String message) {
+            public void forumCreated(String name, String message, String imagePath) {
                 getFragmentManager().popBackStack();
                 firstMessage = message;
-                sendBirdManager.createOpenChannel(name);
+                sendBirdManager.createOpenChannel(name, imagePath);
             }
         });
         getFragmentManager().beginTransaction().replace(R.id.activity_pager, createNewForumFragment).addToBackStack(null).commit();
@@ -111,6 +111,7 @@ public class ForumFragment extends Fragment implements AllForumItem.OnItemClick,
     @Override
     public void onClick(OpenChannel openChannel) {
         ChatInstantaneFragment chatInstantaneFragment = ChatInstantaneFragment.newInstance(openChannel);
+        chatInstantaneFragment.setChatInstantaneDestroyListener(this);
         getFragmentManager().beginTransaction().replace(R.id.activity_pager, chatInstantaneFragment).addToBackStack(null).commit();
     }
 
@@ -130,8 +131,12 @@ public class ForumFragment extends Fragment implements AllForumItem.OnItemClick,
 
     @Override
     public void openChannelCreated(OpenChannel openChannel) {
-        sendBirdManager.sendMessageToChatInstantane(firstMessage,openChannel);
-        allForumAdapter.add(new AllForumItem(openChannel, this,null));
+        allForumAdapter.add(new AllForumItem(openChannel, this,null,getContext()));
+        ChatInstantaneFragment chatInstantaneFragment = ChatInstantaneFragment.newInstance(openChannel);
+        chatInstantaneFragment.setFirstMessage(firstMessage);
+        chatInstantaneFragment.setChatInstantaneDestroyListener(this);
+        getFragmentManager().beginTransaction().replace(R.id.activity_pager, chatInstantaneFragment).addToBackStack(null).commit();
+        firstMessage = null;
     }
 
     @Override
@@ -146,17 +151,23 @@ public class ForumFragment extends Fragment implements AllForumItem.OnItemClick,
             for (int i = 0; i < allLastMessageDate.size() && !out; i++) {
                 if (userMessage.getCreatedAt() > allLastMessageDate.get(i)) {
                     allLastMessageDate.add(i, userMessage.getCreatedAt());
-                    allForumAdapter.add(i, new AllForumItem(openChannel, this,userMessage));
+                    allForumAdapter.add(i, new AllForumItem(openChannel, this,userMessage,getContext()));
                     out = true;
                 }
             }
             if(!out){
                 allLastMessageDate.add( userMessage.getCreatedAt());
-                allForumAdapter.add(new AllForumItem(openChannel, this,userMessage));
+                allForumAdapter.add(new AllForumItem(openChannel, this,userMessage,getContext()));
             }
         }else{
             allLastMessageDate.add(userMessage.getCreatedAt());
-            allForumAdapter.add(new AllForumItem(openChannel, this,userMessage));
+            allForumAdapter.add(new AllForumItem(openChannel, this,userMessage,getContext()));
         }
+        recyclerviewAllForum.smoothScrollToPosition(0);
+    }
+
+    @Override
+    public void onDestroyFragmentChat() {
+        refresh();
     }
 }

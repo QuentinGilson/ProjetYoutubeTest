@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     xmlns:facebook="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context="technifutur.be.projetyoutube.fragment.HomeFragment">
+    tools:context="technifutur.be.projetyoutube.fragment.HomeFragment"
+    android:background="@color/myBlue">
 
     <RelativeLayout
         android:layout_width="match_parent"

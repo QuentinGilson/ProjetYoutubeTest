@@ -1,9 +1,12 @@
 package technifutur.be.projetyoutube.item;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.mikepenz.fastadapter.items.AbstractItem;
 import com.sendbird.android.OpenChannel;
 import com.sendbird.android.UserMessage;
@@ -30,11 +33,13 @@ public class AllForumItem extends AbstractItem<AllForumItem,AllForumItem.ViewHol
     private OpenChannel openChannel;
     private OnItemClick onItemClick;
     private UserMessage userMessage;
+    private Context context;
 
-    public AllForumItem(OpenChannel openChannel, OnItemClick onItemClick, UserMessage userMessage) {
+    public AllForumItem(OpenChannel openChannel, OnItemClick onItemClick, UserMessage userMessage, Context context) {
         this.openChannel = openChannel;
         this.onItemClick = onItemClick;
         this.userMessage = userMessage;
+        this.context = context;
     }
 
     @Override
@@ -50,7 +55,7 @@ public class AllForumItem extends AbstractItem<AllForumItem,AllForumItem.ViewHol
     @Override
     public void bindView(ViewHolder holder, List<Object> payloads) {
         super.bindView(holder, payloads);
-        holder.refresh(openChannel,userMessage);
+        holder.refresh(openChannel,userMessage,context);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,13 +74,16 @@ public class AllForumItem extends AbstractItem<AllForumItem,AllForumItem.ViewHol
         TextView lastMessage;
         @BindView(R.id.textview_cardview_all_forum_date)
         TextView date;
+        @BindView(R.id.textview_cardview_all_forum_image)
+        ImageView image;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
         }
 
-        public void refresh(OpenChannel openChannel,UserMessage userMessage){
+        public void refresh(OpenChannel openChannel,UserMessage userMessage,Context context){
+            Glide.with(context).load(openChannel.getCoverUrl()).into(image);
             if(openChannel!=null){
                 name.setText(openChannel.getName());
             }

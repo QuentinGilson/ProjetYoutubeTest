@@ -7,8 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.InputFilter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +36,10 @@ import technifutur.be.projetyoutube.sendBird.SendBirdManager;
  */
 public class ChatInstantaneFragment extends Fragment implements SendBirdManager.ChatInstantaneListener, ChatInstantaneItem.ButtonMessageListener {
 
+    public interface ChatInstantaneDestroyListener {
+        void onDestroyFragmentChat();
+    }
+
     @BindView(R.id.editttext)
     EditText editttext;
     @BindView(R.id.recyclerview_chat_instantane)
@@ -54,6 +56,8 @@ public class ChatInstantaneFragment extends Fragment implements SendBirdManager.
     private LinearLayoutManager linearLayoutManager;
     private OpenChannel openChannel;
     private String citation = "";
+    private String firstMessage;
+    private ChatInstantaneDestroyListener chatInstantaneDestroyListener;
 
     public ChatInstantaneFragment() {
         allUserMessage = new ArrayList<>();
@@ -65,6 +69,13 @@ public class ChatInstantaneFragment extends Fragment implements SendBirdManager.
         return fragment;
     }
 
+    public void setFirstMessage(String firstMessage) {
+        this.firstMessage = firstMessage;
+    }
+
+    public void setChatInstantaneDestroyListener(ChatInstantaneDestroyListener chatInstantaneDestroyListener) {
+        this.chatInstantaneDestroyListener = chatInstantaneDestroyListener;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -94,15 +105,8 @@ public class ChatInstantaneFragment extends Fragment implements SendBirdManager.
         return view;
     }
 
-    public void closeCitationPopup(){
-        ViewGroup.LayoutParams params = cardviewCitationPopup.getLayoutParams();
-        params.height = 0;
-        cardviewCitationPopup.setLayoutParams(params);
-        citation = "";
-    }
-
     @OnClick(R.id.button_send_message)
-    public void onViewClicked() {
+    public void onClick() {
         if(!editttext.getText().toString().isEmpty()){
             sendBirdManager.sendMessageToChatInstantane(editttext.getText().toString()+citation, openChannel);
             editttext.setText("");
@@ -112,9 +116,20 @@ public class ChatInstantaneFragment extends Fragment implements SendBirdManager.
         }
     }
 
+    public void closeCitationPopup() {
+        ViewGroup.LayoutParams params = cardviewCitationPopup.getLayoutParams();
+        params.height = 0;
+        cardviewCitationPopup.setLayoutParams(params);
+        citation = "";
+    }
+
     @Override
     public void connectedToChat(OpenChannel openChannel) {
         this.openChannel = openChannel;
+        if (firstMessage != null) {
+            sendBirdManager.sendMessageToChatInstantane(firstMessage, openChannel);
+            firstMessage = null;
+        }
         sendBirdManager.getAllChatInstantaneMessage(openChannel);
     }
 
@@ -159,13 +174,14 @@ public class ChatInstantaneFragment extends Fragment implements SendBirdManager.
         super.onStop();
         //sendBirdManager.leaveChatInstantane(openChannel);
         SendBirdManager.getSendBirdManager().setChatInstantaneListener(null);
+        chatInstantaneDestroyListener.onDestroyFragmentChat();
     }
 
     @Override
     public void citation(String message) {
         cardviewCitationPopup.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
         popupCitationTextview.setText(message);
-        citation = "citation420"+message;
+        citation = "citation420" + message;
     }
 
     @Override

@@ -97,8 +97,8 @@ public class SendBirdManager {
         });
     }
 
-    public void createOpenChannel(String name){
-        OpenChannel.createChannel(name, null,null,null,new OpenChannel.OpenChannelCreateHandler() {
+    public void createOpenChannel(String name, String imagePath){
+        OpenChannel.createChannel(name, imagePath,null,null,new OpenChannel.OpenChannelCreateHandler() {
             @Override
             public void onResult(OpenChannel openChannel, SendBirdException e) {
                 gestionForum.openChannelCreated(openChannel);
