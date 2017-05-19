@@ -1,31 +1,34 @@
 package technifutur.be.projetyoutube.animation;
 
-
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
-public class ResizeAnimation extends Animation {
+/**
+ * Created by student5312 on 19/05/17.
+ */
 
-    private int startHeight;
-    private int deltaHeight; // distance between start and end height
+public class ResizeAnimationWidth extends Animation {
+
+    private int startWidth;
+    private int deltaWidth; // distance between start and end height
     private View view;
 
-    public ResizeAnimation (View v) {
+    public ResizeAnimationWidth(View v) {
         this.view = v;
     }
 
     @Override
     protected void applyTransformation(float interpolatedTime, Transformation t) {
 
-        view.getLayoutParams().height = (int) (startHeight + deltaHeight * interpolatedTime);
+        view.getLayoutParams().width = (int) (startWidth + deltaWidth * interpolatedTime);
         view.requestLayout();
     }
 
     public void setParams(int start, int end) {
 
-        this.startHeight = start;
-        deltaHeight = end - startHeight;
+        this.startWidth = start;
+        deltaWidth = end - startWidth;
     }
 
     @Override

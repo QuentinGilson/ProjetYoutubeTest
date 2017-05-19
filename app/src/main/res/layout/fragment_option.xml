@@ -29,8 +29,8 @@
 
     <ImageView
         android:id="@+id/button_show_settings"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:src="@drawable/settings"
         android:layout_toRightOf="@id/name_settings"
         android:layout_below="@id/image_profile_settings"
@@ -77,11 +77,21 @@
             style="@style/Widget.AppCompat.Button.Borderless"/>
     </RelativeLayout>
 
+    <Button
+        android:id="@+id/button_show_achievement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_edit_profil"
+        android:background="@color/myBlue"
+        android:text="Succès"
+        android:textColor="@color/myWhite"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview_achievments"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/layout_edit_profil">
+        android:layout_height="1dp"
+        android:layout_below="@id/button_show_achievement">
     </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>

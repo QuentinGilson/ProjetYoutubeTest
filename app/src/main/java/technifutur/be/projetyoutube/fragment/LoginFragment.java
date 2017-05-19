@@ -26,6 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import technifutur.be.projetyoutube.R;
 import technifutur.be.projetyoutube.activity.PagerActivity;
+import technifutur.be.projetyoutube.model.youtube.Achievement;
 import technifutur.be.projetyoutube.model.youtube.User;
 import technifutur.be.projetyoutube.realm.RealmManager;
 
@@ -95,6 +96,7 @@ public class LoginFragment extends Fragment {
 
     public void startNextActivity(){
         if(RealmManager.getRealmManager().firstConnection()) {
+            createAchievement();
             Bundle b = new Bundle();
             b.putString("fields", "id,name,picture");
             new GraphRequest(
@@ -117,5 +119,13 @@ public class LoginFragment extends Fragment {
             ).executeAsync();
         }
         startActivity(new Intent(getContext(),PagerActivity.class));
+    }
+
+    private void createAchievement(){
+        RealmManager.getRealmManager().createAchievement(new Achievement("In your face",R.drawable.inyourface));
+        RealmManager.getRealmManager().createAchievement(new Achievement("Enigma",R.drawable.enigma));
+        RealmManager.getRealmManager().createAchievement(new Achievement("It's time to fly",R.drawable.firsttweet));
+        RealmManager.getRealmManager().createAchievement(new Achievement("His name is !",R.drawable.knowmyname));
+        RealmManager.getRealmManager().createAchievement(new Achievement("Il ne suffit pas de parler, il faut parler juste.",R.drawable.shakespear));
     }
 }

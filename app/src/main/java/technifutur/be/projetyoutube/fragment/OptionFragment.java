@@ -1,14 +1,19 @@
 package technifutur.be.projetyoutube.fragment;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -19,6 +24,8 @@ import com.imageshack.client.ImageShackClient;
 import com.imageshack.listener.ResponseListener;
 import com.imageshack.model.ImageShackModel;
 import com.imageshack.model.UploadModel;
+import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter;
+import com.mikepenz.fastadapter.items.AbstractItem;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -31,7 +38,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
 import technifutur.be.projetyoutube.R;
-import technifutur.be.projetyoutube.animation.ResizeAnimation;
+import technifutur.be.projetyoutube.animation.ResizeAnimationHeight;
+import technifutur.be.projetyoutube.item.AchievementItem;
+import technifutur.be.projetyoutube.model.youtube.Achievement;
 import technifutur.be.projetyoutube.model.youtube.User;
 import technifutur.be.projetyoutube.realm.RealmManager;
 import technifutur.be.projetyoutube.sendBird.SendBirdManager;
@@ -59,6 +68,8 @@ public class OptionFragment extends Fragment {
 
     private User user;
     private boolean isSettingsOpen = false;
+    private boolean isAchievementOpen = false;
+    private FastItemAdapter<AbstractItem> achievementAdapter;
 
     public OptionFragment() {
         // Required empty public constructor
@@ -91,7 +102,17 @@ public class OptionFragment extends Fragment {
     }
 
     private void initRecyclerView(){
+        achievementAdapter = new FastItemAdapter<>();
+        recyclerviewAchievments.setAdapter(achievementAdapter);
 
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),4);
+        gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerviewAchievments.setLayoutManager(gridLayoutManager);
+
+        List<Achievement> allAchievement = RealmManager.getRealmManager().getAllAchievement();
+        for(Achievement achievement : allAchievement){
+            achievementAdapter.add(new AchievementItem(achievement));
+        }
     }
 
     @Override
@@ -108,7 +129,7 @@ public class OptionFragment extends Fragment {
                         @Override
                         public void onResponse(ImageShackModel model) {
                             UploadModel upload = (UploadModel) model;
-                            RealmManager.getRealmManager().setImage(upload.getImages().get(0).getDirectLink());
+                            RealmManager.getRealmManager().setUserImage(upload.getImages().get(0).getDirectLink());
                             SendBirdManager.updateUserSetting(user.getName(), user.getImage());
                             reloadImage();
                         }
@@ -124,7 +145,7 @@ public class OptionFragment extends Fragment {
         Glide.with(getContext()).load("http://" + user.getImage()).into(imageProfileSettings);
     }
 
-    @OnClick({R.id.button_update_image_profile, R.id.button_update_name_profile})
+    @OnClick({R.id.button_update_image_profile, R.id.button_update_name_profile, R.id.button_show_achievement})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button_update_image_profile:
@@ -132,10 +153,32 @@ public class OptionFragment extends Fragment {
                 break;
             case R.id.button_update_name_profile:
                 if (!edittextChangeName.getText().toString().isEmpty()) {
-                    RealmManager.getRealmManager().setName(edittextChangeName.getText().toString());
+                    String nametxt = edittextChangeName.getText().toString();
+                    RealmManager.getRealmManager().setUserName(nametxt.substring(0, 1).toUpperCase() + nametxt.substring(1));
+
                     edittextChangeName.setText("");
                     nameSettings.setText(user.getName());
+
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+
+                    Achievement achievement = RealmManager.getRealmManager().getAchievement("His name is !");
+                    RealmManager.getRealmManager().setAchievementCount(achievement);
+                    ShowAchievementFragment showAchievementFragment = ShowAchievementFragment.newInstance(achievement);
+                    getFragmentManager().beginTransaction().add(R.id.activity_pager,showAchievementFragment).addToBackStack(null).commit();
+                    achievementAdapter.notifyDataSetChanged();
                 }
+                break;
+            case R.id.button_show_achievement:
+                ResizeAnimationHeight anim = new ResizeAnimationHeight(recyclerviewAchievments);
+                anim.setDuration(500);
+                if(isAchievementOpen){
+                    anim.setParams(400, 1);
+                }else{
+                    anim.setParams(recyclerviewAchievments.getLayoutParams().height,400);
+                }
+                isAchievementOpen = !isAchievementOpen;
+                recyclerviewAchievments.startAnimation(anim);
                 break;
         }
     }
@@ -143,7 +186,7 @@ public class OptionFragment extends Fragment {
     @OnClick(R.id.button_show_settings)
     public void onClick() {
         RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) layoutEditProfil.getLayoutParams();
-        ResizeAnimation a = new ResizeAnimation(layoutEditProfil);
+        ResizeAnimationHeight a = new ResizeAnimationHeight(layoutEditProfil);
         a.setDuration(500);
         if (isSettingsOpen) {
             a.setParams(200, 1);
