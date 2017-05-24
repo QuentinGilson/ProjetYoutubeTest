@@ -1,0 +1,13 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="technifutur.be.projetyoutube.fragment.WebviewReseauFragment">
+
+    <WebView
+        android:id="@+id/webview_reseau"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </WebView>
+
+</FrameLayout>

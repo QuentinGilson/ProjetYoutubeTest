@@ -11,7 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.facebook.CallbackManager;
 import com.facebook.FacebookActivity;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.share.Sharer;
 import com.facebook.share.model.ShareContent;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.model.ShareMediaContent;
@@ -33,8 +37,11 @@ import technifutur.be.projetyoutube.R;
 import technifutur.be.projetyoutube.activity.FaceBookActivity;
 import technifutur.be.projetyoutube.activity.MainActivity;
 import technifutur.be.projetyoutube.data.VideoRequest;
+import technifutur.be.projetyoutube.fragment.ShowAchievementFragment;
+import technifutur.be.projetyoutube.model.youtube.Achievement;
 import technifutur.be.projetyoutube.model.youtube.Video;
 import technifutur.be.projetyoutube.model.youtube.VideoDetail;
+import technifutur.be.projetyoutube.realm.RealmManager;
 
 
 /**
@@ -43,12 +50,19 @@ import technifutur.be.projetyoutube.model.youtube.VideoDetail;
 
 public class VideoItem extends AbstractItem<VideoItem,VideoItem.VideoViewHolder> {
 
+    public interface VideoItemShareListener{
+        void onTwitterShare(String videoId);
+        void onFacebookShare(String videoId);
+    }
+
     private Video video;
     private Context context;
+    private VideoItemShareListener videoItemShareListener;
 
-    public VideoItem(Video video, Context context) {
+    public VideoItem(Video video, Context context, VideoItemShareListener listener) {
         this.video = video;
         this.context = context;
+        this.videoItemShareListener = listener;
     }
 
     @Override
@@ -64,7 +78,7 @@ public class VideoItem extends AbstractItem<VideoItem,VideoItem.VideoViewHolder>
     @Override
     public void bindView(VideoViewHolder holder, List<Object> payloads) {
         super.bindView(holder, payloads);
-        holder.refresh(video,context);
+        holder.refresh(video,context,videoItemShareListener);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,14 +110,16 @@ public class VideoItem extends AbstractItem<VideoItem,VideoItem.VideoViewHolder>
         protected Button shareTweeter;
         private Context context;
         private String videoId;
+        private VideoItemShareListener listener;
 
         public VideoViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
         }
 
-        public void refresh(Video video, Context context){
+        public void refresh(Video video, Context context, VideoItemShareListener listener){
             this.context = context;
+            this.listener = listener;
             videoId = video.getId().getVideoId();
             VideoRequest.getVideoDetail(this,videoId);
         }
@@ -120,18 +136,21 @@ public class VideoItem extends AbstractItem<VideoItem,VideoItem.VideoViewHolder>
             initRating(video);
             parseDuration(video);
 
+            final CallbackManager callbackManager = CallbackManager.Factory.create();
             ShareLinkContent shareLinkContent = new ShareLinkContent.Builder().setContentUrl(Uri.parse("https://www.youtube.com/watch?v="+videoId)).build();
             shareButton.setShareContent(shareLinkContent);
+
+            shareButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onFacebookShare(videoId);
+                }
+            });
 
             shareTweeter.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    try {
-                        TweetComposer.Builder builder = new TweetComposer.Builder(context).url(new URL("https://www.youtube.com/watch?v="+videoId));
-                        builder.show();
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    }
+                    listener.onTwitterShare(videoId);
                 }
             });
         }

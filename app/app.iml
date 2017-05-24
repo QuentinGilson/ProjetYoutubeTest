@@ -132,6 +132,7 @@
     <orderEntry type="library" exported="" name="play-services-basement-10.0.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="javawriter-2.1.1" level="project" />
     <orderEntry type="library" exported="" name="fastadapter-commons-2.1.0" level="project" />
+    <orderEntry type="library" exported="" name="android-segmented-1.0.6" level="project" />
     <orderEntry type="library" exported="" name="bolts-applinks-1.4.0" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-25.2.0" level="project" />
     <orderEntry type="library" exported="" name="sendbird-android-sdk-3.0.22" level="project" />
@@ -175,5 +176,7 @@
     <orderEntry type="library" exported="" name="support-annotations-25.2.0" level="project" />
     <orderEntry type="library" exported="" name="support-vector-drawable-25.2.0" level="project" />
     <orderEntry type="module" module-name="imageShackSDK" exported="" />
+    <orderEntry type="library" exported="" name="support-v4-18.0.0" level="project" />
+    <orderEntry type="library" exported="" name="android-async-http-1.4.4" level="project" />
   </component>
 </module>

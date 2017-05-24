@@ -39,12 +39,37 @@
             android:layout_weight="1"/>
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/twitter_timeline"
+    <info.hoang8f.android.segmented.SegmentedGroup
+        android:id="@+id/segment_button_reseau"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:checkedButton="@+id/radio_button_twitter">
+        <RadioButton
+            android:id="@+id/radio_button_twitter"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Twitter" />
+        <RadioButton
+            android:id="@+id/radio_button_facebook"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Facebook"/>
+        <RadioButton
+            android:id="@+id/radio_button_instagram"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Instagram"/>
+    </info.hoang8f.android.segmented.SegmentedGroup>
+
+    <RelativeLayout
+        android:id="@+id/layout_reseau_timeline"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </ListView>
+    </RelativeLayout>
 
-    
 
 </LinearLayout>

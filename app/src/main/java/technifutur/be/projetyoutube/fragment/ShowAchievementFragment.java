@@ -56,11 +56,11 @@ public class ShowAchievementFragment extends Fragment {
         imageAchievementReveal.setImageResource(achievement.getImage());
 
         ResizeAnimationHeight a = new ResizeAnimationHeight(layoutAchievementAnimate);
-        a.setDuration(500);
+        a.setDuration(400);
         a.setParams(layoutAchievementAnimate.getLayoutParams().height, 600);
 
         ResizeAnimationWidth anim = new ResizeAnimationWidth(layoutAchievementAnimate);
-        anim.setDuration(500);
+        anim.setDuration(400);
         anim.setParams(layoutAchievementAnimate.getLayoutParams().width,500);
 
         AnimationSet animSet = new AnimationSet(true);
