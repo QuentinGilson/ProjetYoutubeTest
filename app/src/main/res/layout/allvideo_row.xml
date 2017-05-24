@@ -2,17 +2,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/myWhite">
+    android:background="@color/myBlue"
+    android:id="@+id/main_layout_video">
 
     <TextView
         android:id="@+id/textview_youtube_cell"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/myBlack"
-        android:background="@color/myWhite"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:textStyle="bold" />
+        android:textColor="@color/myWhite"
+        android:background="@color/myBlue"
+        android:layout_margin="5dp"
+        android:textStyle="bold"
+        android:gravity="center_horizontal"/>
 
     <ImageView
         android:id="@+id/imageview_youtube_cell"
@@ -41,8 +42,8 @@
             android:id="@+id/textview_youtube_cell_numberview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/myBlack"
-            android:background="@color/myWhite"
+            android:textColor="@color/myWhite"
+            android:background="@color/myBlue"
             android:layout_centerVertical="true"
             android:layout_marginLeft="2dp"/>
 

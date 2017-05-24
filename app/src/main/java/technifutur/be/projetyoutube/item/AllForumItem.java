@@ -44,7 +44,7 @@ public class AllForumItem extends AbstractItem<AllForumItem,AllForumItem.ViewHol
 
     @Override
     public int getType() {
-        return R.id.cardview_forum;
+        return R.id.main_layout_all_forum;
     }
 
     @Override

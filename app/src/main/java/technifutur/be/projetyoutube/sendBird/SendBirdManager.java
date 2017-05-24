@@ -16,6 +16,7 @@ import com.sendbird.android.User;
 import com.sendbird.android.UserListQuery;
 import com.sendbird.android.UserMessage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -33,7 +34,6 @@ public class SendBirdManager {
     }
 
     public interface GestionForum{
-        void connectedToSendBird();
         void allOpenChannel(List<OpenChannel> allopenChannel);
         void openChannelCreated(OpenChannel openChannel);
         void numberOfUserOnline(int cpt);
@@ -44,10 +44,17 @@ public class SendBirdManager {
         void messageReceived();
     }
 
+    public interface HomeListener{
+        void connectedToSendBird();
+        void allOpenChannel(List<OpenChannel> allopenChannel);
+        void getLastMessage(UserMessage userMessage,OpenChannel openChannel);
+    }
+
     private static SendBirdManager sendBirdManager;
     private ChatInstantaneListener chatInstantaneListener;
     private GestionForum gestionForum;
     private NotifListener notifListener;
+    private HomeListener homeListener;
 
     public static SendBirdManager getSendBirdManager(){
         if(sendBirdManager==null){
@@ -68,12 +75,18 @@ public class SendBirdManager {
         this.gestionForum = gestionForum;
     }
 
+    public void setHomeListener(HomeListener homeListener) {
+        this.homeListener = homeListener;
+    }
+
     public void connectSendBird(final technifutur.be.projetyoutube.model.youtube.User myuser){
         SendBird.connect(myuser.getId(), new SendBird.ConnectHandler() {
             @Override
             public void onConnected(User user, SendBirdException e) {
-                gestionForum.connectedToSendBird();
-                updateUserSetting(myuser.getName(),myuser.getImage());
+                if(e==null) {
+                    homeListener.connectedToSendBird();
+                    updateUserSetting(myuser.getName(), myuser.getImage());
+                }
             }
         });
     }
@@ -91,8 +104,10 @@ public class SendBirdManager {
         openChannel.enter(new OpenChannel.OpenChannelEnterHandler() {
             @Override
             public void onResult(SendBirdException e) {
-                receiveMessage();
-                chatInstantaneListener.connectedToChat(openChannel);
+                if(e==null) {
+                    receiveMessage();
+                    chatInstantaneListener.connectedToChat(openChannel);
+                }
             }
         });
     }
@@ -101,7 +116,9 @@ public class SendBirdManager {
         OpenChannel.createChannel(name, imagePath,null,null,new OpenChannel.OpenChannelCreateHandler() {
             @Override
             public void onResult(OpenChannel openChannel, SendBirdException e) {
-                gestionForum.openChannelCreated(openChannel);
+                if(e==null) {
+                    gestionForum.openChannelCreated(openChannel);
+                }
             }
         });
     }
@@ -111,7 +128,29 @@ public class SendBirdManager {
         channelListQuery.next(new OpenChannelListQuery.OpenChannelListQueryResultHandler() {
             @Override
             public void onResult(List<OpenChannel> channels, SendBirdException e) {
-                gestionForum.allOpenChannel(channels);
+                if(e==null) {
+                    gestionForum.allOpenChannel(channels);
+                }
+            }
+        });
+    }
+
+    public void getThreeOpenChannel(){
+        OpenChannelListQuery channelListQuery = OpenChannel.createOpenChannelListQuery();
+        channelListQuery.next(new OpenChannelListQuery.OpenChannelListQueryResultHandler() {
+            @Override
+            public void onResult(List<OpenChannel> channels, SendBirdException e) {
+                if(e==null) {
+                    if (channels.size() < 4) {
+                        homeListener.allOpenChannel(channels);
+                    } else {
+                        List<OpenChannel>listOpenChannels = new ArrayList<OpenChannel>();
+                        listOpenChannels.add(channels.get(0));
+                        listOpenChannels.add(channels.get(1));
+                        listOpenChannels.add(channels.get(2));
+                        homeListener.allOpenChannel(listOpenChannels);
+                    }
+                }
             }
         });
     }
@@ -121,10 +160,8 @@ public class SendBirdManager {
             @Override
             public void onMessageReceived(BaseChannel baseChannel, BaseMessage baseMessage) {
                 if(chatInstantaneListener!=null){
-                    Log.d("test","message not null");
                     chatInstantaneListener.messageReceived(baseMessage);
                 }else{
-                    Log.d("test","message null");
                     notifListener.messageReceived();
                 }
 
@@ -136,9 +173,10 @@ public class SendBirdManager {
         openChannel.sendUserMessage(message, new BaseChannel.SendUserMessageHandler() {
             @Override
             public void onSent(UserMessage userMessage, SendBirdException e) {
-                Log.d("test","message sent");
-                if (chatInstantaneListener != null) {
-                    chatInstantaneListener.messageSent(userMessage);
+                if(e==null) {
+                    if (chatInstantaneListener != null) {
+                        chatInstantaneListener.messageSent(userMessage);
+                    }
                 }
             }
         });
@@ -149,7 +187,9 @@ public class SendBirdManager {
         previousMessageListQuery.load(200, true, new PreviousMessageListQuery.MessageListQueryResult() {
             @Override
             public void onResult(List<BaseMessage> list, SendBirdException e) {
-                chatInstantaneListener.allMessageSent(list);
+                if(e==null && chatInstantaneListener!=null) {
+                    chatInstantaneListener.allMessageSent(list);
+                }
             }
         });
     }
@@ -168,13 +208,15 @@ public class SendBirdManager {
         userListQuery.next(new UserListQuery.UserListQueryResultHandler() {
             @Override
             public void onResult(List<User> list, SendBirdException e) {
-                int cpt=0;
-                for(User user : list){
-                    if(user.getConnectionStatus().equals(User.ConnectionStatus.ONLINE)){
-                        cpt++;
+                if(e==null) {
+                    int cpt = 0;
+                    for (User user : list) {
+                        if (user.getConnectionStatus().equals(User.ConnectionStatus.ONLINE)) {
+                            cpt++;
+                        }
                     }
+                    gestionForum.numberOfUserOnline(cpt);
                 }
-                gestionForum.numberOfUserOnline(cpt);
             }
         });
     }
@@ -184,10 +226,29 @@ public class SendBirdManager {
         previousMessageListQuery.load(1, true, new PreviousMessageListQuery.MessageListQueryResult() {
             @Override
             public void onResult(List<BaseMessage> list, SendBirdException e) {
-                if(list.size()>0){
-                    BaseMessage message = list.get(0);
-                    if(message instanceof UserMessage){
-                        gestionForum.getLastMessage((UserMessage) message,openChannel);
+                if(e==null) {
+                    if (list.size() > 0) {
+                        BaseMessage message = list.get(0);
+                        if (message instanceof UserMessage) {
+                            gestionForum.getLastMessage((UserMessage) message, openChannel);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    public void getLastMessageForHome(final OpenChannel openChannel){
+        PreviousMessageListQuery previousMessageListQuery = openChannel.createPreviousMessageListQuery();
+        previousMessageListQuery.load(1, true, new PreviousMessageListQuery.MessageListQueryResult() {
+            @Override
+            public void onResult(List<BaseMessage> list, SendBirdException e) {
+                if(e==null) {
+                    if (list.size() > 0) {
+                        BaseMessage message = list.get(0);
+                        if (message instanceof UserMessage) {
+                            homeListener.getLastMessage((UserMessage) message, openChannel);
+                        }
                     }
                 }
             }

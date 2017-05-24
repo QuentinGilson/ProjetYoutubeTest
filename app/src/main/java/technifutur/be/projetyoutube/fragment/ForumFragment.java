@@ -1,8 +1,11 @@
 package technifutur.be.projetyoutube.fragment;
 
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,6 +17,7 @@ import android.widget.TextView;
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter;
 import com.mikepenz.fastadapter.items.AbstractItem;
 import com.sendbird.android.OpenChannel;
+import com.sendbird.android.SendBird;
 import com.sendbird.android.UserMessage;
 
 import java.util.ArrayList;
@@ -43,9 +47,9 @@ public class ForumFragment extends Fragment implements AllForumItem.OnItemClick,
     private SendBirdManager sendBirdManager;
     private FastItemAdapter<AbstractItem> allForumAdapter;
     private LinearLayoutManager linearLayoutManager;
-    private User user;
     private String firstMessage;
     private List<Long> allLastMessageDate;
+    private boolean firstTimeStartFragment = false;
 
     public ForumFragment() {
         // Required empty public constructor
@@ -67,31 +71,41 @@ public class ForumFragment extends Fragment implements AllForumItem.OnItemClick,
         View view = inflater.inflate(R.layout.fragment_forum, container, false);
         ButterKnife.bind(this, view);
 
-        refresh();
-
-        return view;
-    }
-
-    public void refresh(){
-        user = RealmManager.getRealmManager().getUser();
-        connectingToSenbird();
-        allLastMessageDate = new ArrayList<>();
-    }
-
-    public void connectingToSenbird() {
         sendBirdManager = SendBirdManager.getSendBirdManager();
         sendBirdManager.setGestionForum(this);
-        sendBirdManager.connectSendBird(user);
-    }
 
-    public void loadForum() {
         allForumAdapter = new FastItemAdapter<AbstractItem>();
         recyclerviewAllForum.setAdapter(allForumAdapter);
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerviewAllForum.setLayoutManager(linearLayoutManager);
 
+        if(!firstTimeStartFragment) {
+            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+            Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.divider);
+            dividerItemDecoration.setDrawable(drawable);
+            recyclerviewAllForum.addItemDecoration(dividerItemDecoration);
+            firstTimeStartFragment = true;
+        }
+
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        refresh();
+    }
+
+    public void refresh(){
+        connectingToSenbird();
+        allLastMessageDate = new ArrayList<>();
+        allForumAdapter.clear();
+    }
+
+    public void connectingToSenbird() {
         sendBirdManager.getAllOpenChannel();
+        sendBirdManager.getNumberOfUserOnline();
     }
 
     @OnClick(R.id.button_add_new_forum)
@@ -116,16 +130,12 @@ public class ForumFragment extends Fragment implements AllForumItem.OnItemClick,
     }
 
     @Override
-    public void connectedToSendBird() {
-        loadForum();
-        sendBirdManager.getNumberOfUserOnline();
-    }
-
-    @Override
     public void allOpenChannel(List<OpenChannel> allopenChannel) {
-
-        for (OpenChannel openChannel : allopenChannel) {
-            sendBirdManager.getLastMessage(openChannel);
+        if(allopenChannel!=null) {
+            allForumAdapter.clear();
+            for (OpenChannel openChannel : allopenChannel) {
+                sendBirdManager.getLastMessage(openChannel);
+            }
         }
     }
 
@@ -141,7 +151,12 @@ public class ForumFragment extends Fragment implements AllForumItem.OnItemClick,
 
     @Override
     public void numberOfUserOnline(int cpt) {
-        textviewNumberOfPeopleOnline.setText((cpt)+" membres connectés");
+        if(cpt<=1){
+            textviewNumberOfPeopleOnline.setText((cpt)+" membre connecté");
+        }else{
+            textviewNumberOfPeopleOnline.setText((cpt)+" membres connectés");
+        }
+
     }
 
     @Override
@@ -169,5 +184,11 @@ public class ForumFragment extends Fragment implements AllForumItem.OnItemClick,
     @Override
     public void onDestroyFragmentChat() {
         refresh();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        firstTimeStartFragment = false;
     }
 }

@@ -56,12 +56,10 @@ public class ReseauFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_reseau, container, false);
         ButterKnife.bind(this, view);
 
-        twitterTimeline();
         radioButtonInstagram.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WebviewReseauFragment webviewReseauFragment = WebviewReseauFragment.newInstance("https://www.instagram.com/followrevi/");
-                getFragmentManager().beginTransaction().replace(R.id.layout_reseau_timeline,webviewReseauFragment).commit();
+                instagramTimeline();
             }
         });
         radioButtonTwitter.setOnClickListener(new View.OnClickListener() {
@@ -73,8 +71,7 @@ public class ReseauFragment extends Fragment {
         radioButtonFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WebviewReseauFragment webviewReseauFragment = WebviewReseauFragment.newInstance("https://www.facebook.com/FollowRevi-578438115688799/");
-                getFragmentManager().beginTransaction().replace(R.id.layout_reseau_timeline,webviewReseauFragment).commit();
+                facebookTimeline();
             }
         });
 
@@ -86,6 +83,16 @@ public class ReseauFragment extends Fragment {
     private void twitterTimeline(){
         TwitterTimelineFragment twitterTimelineFragment = TwitterTimelineFragment.newInstance();
         getFragmentManager().beginTransaction().replace(R.id.layout_reseau_timeline,twitterTimelineFragment).commit();
+    }
+
+    private void instagramTimeline(){
+        WebviewReseauFragment webviewReseauFragment = WebviewReseauFragment.newInstance("https://www.instagram.com/followrevi/");
+        getFragmentManager().beginTransaction().replace(R.id.layout_reseau_timeline,webviewReseauFragment).commit();
+    }
+
+    private void facebookTimeline(){
+        WebviewReseauFragment webviewReseauFragment = WebviewReseauFragment.newInstance("https://www.facebook.com/FollowRevi-578438115688799/");
+        getFragmentManager().beginTransaction().replace(R.id.layout_reseau_timeline,webviewReseauFragment).commit();
     }
 
     private void setLogo() {

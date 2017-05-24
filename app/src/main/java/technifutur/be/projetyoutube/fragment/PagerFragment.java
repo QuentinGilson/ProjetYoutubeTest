@@ -81,6 +81,9 @@ public class PagerFragment extends Fragment implements SendBirdManager.NotifList
                         ((ForumFragment)pagerAdapter.getItem(1)).refresh();
                         mainTabLayout.getTabAt(1).getIcon().setTint(Color.BLACK);
                         break;
+                    case 2:
+                        ((HomeFragment)pagerAdapter.getItem(2)).refresh();
+                        break;
                     default:
                         break;
                 }

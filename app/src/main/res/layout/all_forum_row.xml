@@ -1,52 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:id="@+id/main_layout_all_forum">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardview_forum"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/textview_cardview_all_forum_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitXY"
+        android:layout_marginRight="4dp"/>
+    <TextView
+        android:id="@+id/textview_cardview_all_forum"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:elevation="5dp"
-        app:cardCornerRadius="10dp">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/myWhite">
-            <ImageView
-                android:id="@+id/textview_cardview_all_forum_image"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:scaleType="fitXY"
-                android:layout_marginRight="4dp"/>
-            <TextView
-                android:id="@+id/textview_cardview_all_forum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/myBlue"
-                android:layout_toRightOf="@id/textview_cardview_all_forum_image"/>
-            <TextView
-                android:id="@+id/textview_cardview_all_forum_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true" />
-            <TextView
-                android:id="@+id/textview_cardview_all_forum_number_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textview_cardview_all_forum"
-                android:layout_toRightOf="@id/textview_cardview_all_forum_image"/>
-            <TextView
-                android:id="@+id/textview_cardview_all_forum_last_messsage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textview_cardview_all_forum"
-                android:layout_toRightOf="@id/textview_cardview_all_forum_image"/>
-        </RelativeLayout>
-    </android.support.v7.widget.CardView>
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/myWhite"
+        android:layout_toRightOf="@id/textview_cardview_all_forum_image"/>
+    <TextView
+        android:id="@+id/textview_cardview_all_forum_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true" />
+    <TextView
+        android:id="@+id/textview_cardview_all_forum_number_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textview_cardview_all_forum"
+        android:layout_toRightOf="@id/textview_cardview_all_forum_image"/>
+    <TextView
+        android:id="@+id/textview_cardview_all_forum_last_messsage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textview_cardview_all_forum"
+        android:layout_toRightOf="@id/textview_cardview_all_forum_image"/>
 
 </RelativeLayout>

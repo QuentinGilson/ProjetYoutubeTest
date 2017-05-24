@@ -69,13 +69,14 @@ public class AllVideoFragment extends Fragment implements VideoRequest.VideoList
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_all_video, container, false);
         ButterKnife.bind(this, view);
+
+        initRecyclerView();
+
         return view;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
 
+    private void initRecyclerView(){
         videoAdapter = new FastItemAdapter<>();
         allvideoRecyclerview.setAdapter(videoAdapter);
 

@@ -37,18 +37,20 @@
             android:layout_centerVertical="true"/>
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/imageview_youtube_home"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/layout_bandeau_twitch"/>
+    <include layout="@layout/allvideo_row"/>
 
-    <TextView
-        android:id="@+id/textview_youtube_home"
+    <View
+        android:id="@+id/view_divider_home"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/myBlue2"
+        android:layout_below="@id/main_layout_video"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview_home_forum"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textColor="@color/myBlack"
-        android:layout_below="@+id/imageview_youtube_home"/>
+        android:layout_below="@id/view_divider_home">
+    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>
